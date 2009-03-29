@@ -1,7 +1,7 @@
 Summary: Frontend for MAME
 Name: gmameui
 Version: 0.2.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPLv2+
 Group: Applications/Emulators
 URL: http://gmameui.sourceforge.net/
@@ -53,6 +53,9 @@ sdlmame), allowing you to run your arcade games quickly and easily.
 
 
 %changelog
+* Sun Mar 29 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.2.2-3
+- rebuild for new F11 features
+
 * Sat Oct 18 2008 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info - 0.2.2-2
 - rebuild for RPM Fusion
 
