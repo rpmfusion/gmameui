@@ -1,7 +1,7 @@
 Summary: Frontend for MAME
 Name: gmameui
 Version: 0.2.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: Applications/Emulators
 URL: http://gmameui.sourceforge.net/
@@ -57,6 +57,9 @@ sdlmame), allowing you to run your arcade games quickly and easily.
 
 
 %changelog
+* Thu Feb 09 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.2.10-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Sun Jul  5 2009 Matthias Saou <http://freshrpms.net/> 0.2.10-1
 - Update to 0.2.10.
 - Add new libgnome-devel and libarchive-devel build requirements.
