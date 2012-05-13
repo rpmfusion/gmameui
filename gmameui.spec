@@ -1,11 +1,13 @@
 Summary: Frontend for MAME
 Name: gmameui
-Version: 0.2.10
-Release: 2%{?dist}
+Version: 0.2.12
+Release: 1%{?dist}
 License: GPLv2+
 Group: Applications/Emulators
 URL: http://gmameui.sourceforge.net/
-Source: http://downloads.sf.net/gmameui/gmameui-%{version}.tar.gz
+Source0: http://downloads.sf.net/gmameui/gmameui-%{version}.tar.gz
+Patch0: gmameui-0.2.12-fix.patch
+Patch1: gmameui-0.2.12-fix2.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: gtk2-devel
 BuildRequires: libgnome-devel
@@ -14,6 +16,7 @@ BuildRequires: libglade2-devel
 BuildRequires: gettext, bison
 BuildRequires: intltool, perl(XML::Parser)
 BuildRequires: libarchive-devel
+BuildRequires: libvtemm-devel
 BuildRequires: gnome-doc-utils
 
 %description
@@ -23,6 +26,8 @@ sdlmame), allowing you to run your arcade games quickly and easily.
 
 %prep
 %setup -q
+%patch0 -p1 -b .fix
+%patch1 -p1 -b .fix2
 
 
 %build
@@ -57,6 +62,10 @@ sdlmame), allowing you to run your arcade games quickly and easily.
 
 
 %changelog
+* Sun May 13 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.2.12-1
+- Update to 0.2.12
+- Fix build
+
 * Thu Feb 09 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.2.10-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
