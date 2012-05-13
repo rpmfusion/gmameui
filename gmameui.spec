@@ -18,6 +18,7 @@ BuildRequires: intltool, perl(XML::Parser)
 BuildRequires: libarchive-devel
 BuildRequires: libvtemm-devel
 BuildRequires: gnome-doc-utils
+BuildRequires: rarian-compat
 
 %description
 GMAMEUI is a front-end program that helps you run MAME (either xmame or
