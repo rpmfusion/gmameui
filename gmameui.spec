@@ -1,12 +1,14 @@
 Summary: Frontend for MAME
 Name: gmameui
 Version: 0.2.13
-Release: 0.1.20120704cvs%{?dist}
+Release: 0.2.20120704cvs%{?dist}
 License: GPLv3+
 Group: Applications/Emulators
 URL: http://gmameui.sourceforge.net/
 #http://gmameui.cvs.sourceforge.net/viewvc/gmameui/gmameui/?view=tar
 Source0: gmameui-gmameui20120704cvs.tar.gz
+#from gnome-icon-theme-gperfection2-2.3-1.noarch.rpm
+Source1: missingicons.tbz
 Patch0: gmameui-0.2.12-fix.patch
 Patch2: gmameui-fix3.patch
 Patch3: gmameui-fix4.patch
@@ -32,6 +34,7 @@ sdlmame), allowing you to run your arcade games quickly and easily.
 
 %prep
 %setup -q -n gmameui
+%setup -a1 -qn gmameui
 %patch0 -p1 -b .fix
 %patch2 -p0 -b .fix3
 %patch3 -p0 -b .fix4
@@ -53,6 +56,13 @@ sdlmame), allowing you to run your arcade games quickly and easily.
 %{__rm} -f %{buildroot}%{_docdir}/%{name}*/{README,TODO}
 %{__mv} %{buildroot}%{_docdir}/%{name}*/* _docs/
 
+# Install missing icons
+#%{__cp} emblem-distinguished.png emblem-sound.png stock_unknown.png stock_filter-navigator.png \
+#stock_toggle-preview.png stock_list_enum-off.png %{buildroot}%{_datadir}/gmameui/
+
+%{__cp} gmameui-view-list.png gmameui-view-filters.png gmameui-view-screenshot.png \
+gmameui-emblem-unknown.png gmameui-emblem-played.png gmameui-emblem-sound.png \
+%{buildroot}%{_datadir}/gmameui/
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -67,6 +77,10 @@ sdlmame), allowing you to run your arcade games quickly and easily.
 
 
 %changelog
+* Sat Jul 07 2012 Sérgio Basto <sergio@serjux.com> - 0.2.13-0.2.20120704cvs
+- add missing icons, extract from gnome-icon-theme-gperfection2_2.3-0ubuntu3_all.deb
+  gmamui relies on some old gnome-icons-theme, cleans icons errors. 
+
 * Wed Jul 04 2012 Sérgio Basto <sergio@serjux.com> - 0.2.13-0.1.20120704cvs
 - from Julian Sikorski patch for gmameui.spec : 
   - Updated the license tag to GPLv3+
