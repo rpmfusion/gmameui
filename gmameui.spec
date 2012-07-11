@@ -1,7 +1,7 @@
 Summary: Frontend for MAME
 Name: gmameui
 Version: 0.2.13
-Release: 0.2.20120704cvs%{?dist}
+Release: 0.3.20120704cvs%{?dist}
 License: GPLv3+
 Group: Applications/Emulators
 URL: http://gmameui.sourceforge.net/
@@ -25,6 +25,8 @@ BuildRequires: rarian-compat
 BuildRequires: libzip-devel
 BuildRequires: gtkimageview-devel
 BuildRequires: vte-devel
+
+Requires: gnome-icon-theme-legacy
 
 
 %description
@@ -77,6 +79,9 @@ gmameui-emblem-unknown.png gmameui-emblem-played.png gmameui-emblem-sound.png \
 
 
 %changelog
+* Wed Jul 11 2012 Sérgio Basto <sergio@serjux.com> - 0.4.13-0.2.20120704cvs
+- add Requires: gnome-icon-theme-legacy, to fix more missing icons.
+
 * Sat Jul 07 2012 Sérgio Basto <sergio@serjux.com> - 0.2.13-0.2.20120704cvs
 - add missing icons, extract from gnome-icon-theme-gperfection2_2.3-0ubuntu3_all.deb
   gmamui relies on some old gnome-icons-theme, cleans icons errors. 
