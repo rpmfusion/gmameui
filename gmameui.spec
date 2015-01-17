@@ -1,7 +1,7 @@
 Summary: Frontend for MAME
 Name: gmameui
 Version: 0.2.13
-Release: 0.5.20120704cvs%{?dist}
+Release: 0.6.20120704cvs%{?dist}
 License: GPLv3+
 Group: Applications/Emulators
 URL: http://gmameui.sourceforge.net/
@@ -9,13 +9,14 @@ URL: http://gmameui.sourceforge.net/
 Source0: gmameui-gmameui20120704cvs.tar.gz
 #from gnome-icon-theme-gperfection2-2.3-1.noarch.rpm
 Source1: missingicons.tbz
-Patch0: gmameui-0.2.12-fix.patch
-Patch2: gmameui-fix3.patch
-Patch3: gmameui-fix4.patch
-#BuildRequires: gtk2-devel
-BuildRequires: libgnome-devel
+Patch0: gmameui-0.2.12-glib2.patch
+Patch2: gmameui-0.2.12-libarchive.patch
+Patch3: gmameui-0.2.12-autopoint.patch
+Patch4: gmameui-0.2.13-g_key_file_save_to_file2.patch
+BuildRequires: gtk2-devel
+#BuildRequires: libgnome-devel
 BuildRequires: expat-devel
-BuildRequires: libglade2-devel
+#BuildRequires: libglade2-devel
 BuildRequires: gettext, bison
 BuildRequires: intltool, perl(XML::Parser)
 BuildRequires: libarchive-devel
@@ -37,38 +38,33 @@ sdlmame), allowing you to run your arcade games quickly and easily.
 %prep
 %setup -q -n gmameui
 %setup -a1 -qn gmameui
-%patch0 -p1 -b .fix
-%patch2 -p0 -b .fix3
-%patch3 -p0 -b .fix4
+%patch0 -p1 -b .glib2
+%patch2 -p0 -b .libarchive
+%patch3 -p1 -b .autopoint
+%patch4 -p1 -b .g_key_file_save_to_file2
 
 
 %build
 ./autogen.sh
-%configure
+%configure --enable-debug
 %{__make} %{?_smp_mflags}
 
 
 %install
-%{__rm} -rf %{buildroot} _docs
 %{__make} install DESTDIR=%{buildroot}
 %find_lang %{name}
 
-# Put the docs back into place
-%{__mkdir} _docs
+# clean empty files
 %{__rm} -f %{buildroot}%{_docdir}/%{name}*/{README,TODO}
-%{__mv} %{buildroot}%{_docdir}/%{name}*/* _docs/
 
 # Install missing icons
-#%{__cp} emblem-distinguished.png emblem-sound.png stock_unknown.png stock_filter-navigator.png \
-#stock_toggle-preview.png stock_list_enum-off.png %{buildroot}%{_datadir}/gmameui/
-
 %{__cp} gmameui-view-list.png gmameui-view-filters.png gmameui-view-screenshot.png \
 gmameui-emblem-unknown.png gmameui-emblem-played.png gmameui-emblem-sound.png \
 %{buildroot}%{_datadir}/gmameui/
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc _docs/*
+%doc %{_docdir}
 %{_bindir}/gmameui
 %{_datadir}/applications/gmameui.desktop
 %{_datadir}/pixmaps/gmameui.png
@@ -79,6 +75,9 @@ gmameui-emblem-unknown.png gmameui-emblem-played.png gmameui-emblem-sound.png \
 
 
 %changelog
+* Sat Jan 17 2015 Sérgio Basto <sergio@serjux.com> - 0.2.13-0.6.20120704cvs
+- work in progress , renaming patches, clean spec
+
 * Sun Aug 31 2014 Sérgio Basto <sergio@serjux.com> - 0.2.13-0.5.20120704cvs
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
