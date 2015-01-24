@@ -6,7 +6,7 @@ diff -Nurp gmameui.orig/src/gui_prefs.c gmameui/src/gui_prefs.c
  	/* Set the value and save the file */
  	g_key_file_set_integer (pr->priv->prefs_ini_file, "Preferences", key, value);
 -	g_key_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
-+	g_key_file_save_to_file2 (pr->priv->prefs_ini_file, pr->priv->filename);
++	gmameui_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
  	
  	g_free (key);
  	
@@ -15,7 +15,7 @@ diff -Nurp gmameui.orig/src/gui_prefs.c gmameui/src/gui_prefs.c
  	/* Set the value and save the file */
  	g_key_file_set_integer_list (pr->priv->prefs_ini_file, "Preferences", key, value, NUMBER_COLUMN);
 -	g_key_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
-+	g_key_file_save_to_file2 (pr->priv->prefs_ini_file, pr->priv->filename);
++	gmameui_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
  		
  	g_free (key);
  	
@@ -24,7 +24,7 @@ diff -Nurp gmameui.orig/src/gui_prefs.c gmameui/src/gui_prefs.c
  	/* Set the value and save the file */
  	g_key_file_set_boolean (pr->priv->prefs_ini_file, "Preferences", key, value);
 -	g_key_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
-+	g_key_file_save_to_file2 (pr->priv->prefs_ini_file, pr->priv->filename);
++	gmameui_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
  		
  	g_free (key);
  	
@@ -33,7 +33,7 @@ diff -Nurp gmameui.orig/src/gui_prefs.c gmameui/src/gui_prefs.c
  	/* Set the value and save the file */
  	g_key_file_set_string (pr->priv->prefs_ini_file, "Preferences", key, value);
 -	g_key_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
-+	g_key_file_save_to_file2 (pr->priv->prefs_ini_file, pr->priv->filename);
++	gmameui_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
  	
  	g_free (key);
  	
@@ -42,7 +42,7 @@ diff -Nurp gmameui.orig/src/gui_prefs.c gmameui/src/gui_prefs.c
  		g_key_file_set_string_list (pr->priv->prefs_ini_file, "Preferences", key, value, n_va);
  	}
 -	g_key_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
-+	g_key_file_save_to_file2 (pr->priv->prefs_ini_file, pr->priv->filename);
++	gmameui_file_save_to_file (pr->priv->prefs_ini_file, pr->priv->filename);
  		
  	GMAMEUI_DEBUG ("Saving string array %s... done", key);
  	
@@ -54,7 +54,7 @@ diff -Nurp gmameui.orig/src/io.c gmameui/src/io.c
  /* Custom function to save the keyfile to disk. If the file does not exist,
     it will be created */
 -gboolean g_key_file_save_to_file(GKeyFile *kf, const gchar *file)
-+gboolean g_key_file_save_to_file2(GKeyFile *kf, const gchar *file)
++gboolean gmameui_file_save_to_file(GKeyFile *kf, const gchar *file)
  {
  	GError *error = NULL;
  	gsize length, nr;
@@ -66,7 +66,7 @@ diff -Nurp gmameui.orig/src/io.h gmameui/src/io.h
  
  gboolean
 -g_key_file_save_to_file(GKeyFile *kf, const gchar *file);
-+g_key_file_save_to_file2(GKeyFile *kf, const gchar *file);
++gmameui_file_save_to_file(GKeyFile *kf, const gchar *file);
  
  gboolean
  load_games_ini(void);
@@ -78,7 +78,7 @@ diff -Nurp gmameui.orig/src/mame_options.c gmameui/src/mame_options.c
  //	g_strfreev (stv);
  	
 -	g_key_file_save_to_file (opts->priv->options_file, opts->priv->filename);
-+	g_key_file_save_to_file2 (opts->priv->options_file, opts->priv->filename);
++	gmameui_file_save_to_file (opts->priv->options_file, opts->priv->filename);
  }
  
  static void
@@ -87,7 +87,7 @@ diff -Nurp gmameui.orig/src/mame_options.c gmameui/src/mame_options.c
  //	g_strfreev (stv);
  	
 -	g_key_file_save_to_file (opts->priv->options_file, opts->priv->filename);
-+	g_key_file_save_to_file2 (opts->priv->options_file, opts->priv->filename);
++	gmameui_file_save_to_file (opts->priv->options_file, opts->priv->filename);
  }
  
  static void
@@ -96,7 +96,7 @@ diff -Nurp gmameui.orig/src/mame_options.c gmameui/src/mame_options.c
  //	g_strfreev (stv);
  	
 -	g_key_file_save_to_file (opts->priv->options_file, opts->priv->filename);
-+	g_key_file_save_to_file2 (opts->priv->options_file, opts->priv->filename);
++	gmameui_file_save_to_file (opts->priv->options_file, opts->priv->filename);
  }
  
  static void
@@ -105,7 +105,7 @@ diff -Nurp gmameui.orig/src/mame_options.c gmameui/src/mame_options.c
  //	g_strfreev (stv);
  	
 -	g_key_file_save_to_file (opts->priv->options_file, opts->priv->filename);
-+	g_key_file_save_to_file2 (opts->priv->options_file, opts->priv->filename);
++	gmameui_file_save_to_file (opts->priv->options_file, opts->priv->filename);
  }
  
  /* Gets the value from the keyfile for the specified key, which should be of the
@@ -117,7 +117,7 @@ diff -Nurp gmameui.orig/src/mame_options_legacy.c gmameui/src/mame_options_legac
  //	g_strfreev (stv);
  	
 -	g_key_file_save_to_file (opts->priv->options_file, opts->priv->filename);
-+	g_key_file_save_to_file2 (opts->priv->options_file, opts->priv->filename);
++	gmameui_file_save_to_file (opts->priv->options_file, opts->priv->filename);
  }
  
  static void
@@ -126,7 +126,7 @@ diff -Nurp gmameui.orig/src/mame_options_legacy.c gmameui/src/mame_options_legac
  //	g_strfreev (stv);
  	
 -	g_key_file_save_to_file (opts->priv->options_file, opts->priv->filename);
-+	g_key_file_save_to_file2 (opts->priv->options_file, opts->priv->filename);
++	gmameui_file_save_to_file (opts->priv->options_file, opts->priv->filename);
  }
  
  static void
@@ -135,7 +135,7 @@ diff -Nurp gmameui.orig/src/mame_options_legacy.c gmameui/src/mame_options_legac
  //	g_strfreev (stv);
  	
 -	g_key_file_save_to_file (opts->priv->options_file, opts->priv->filename);
-+	g_key_file_save_to_file2 (opts->priv->options_file, opts->priv->filename);
++	gmameui_file_save_to_file (opts->priv->options_file, opts->priv->filename);
  }
  
  static void
@@ -144,7 +144,7 @@ diff -Nurp gmameui.orig/src/mame_options_legacy.c gmameui/src/mame_options_legac
  //	g_strfreev (stv);
  	
 -	g_key_file_save_to_file (opts->priv->options_file, opts->priv->filename);
-+	g_key_file_save_to_file2 (opts->priv->options_file, opts->priv->filename);
++	gmameui_file_save_to_file (opts->priv->options_file, opts->priv->filename);
  }
  
  /* Gets the value from the keyfile for the specified key, which should be of the
