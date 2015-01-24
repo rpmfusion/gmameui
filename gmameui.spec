@@ -1,21 +1,24 @@
+#globals for gmameui-0.2.13-20150124-7bac32a
+%global gitdate 20150124
+%global gitversion 7bac32a
+%global snapshot %{gitdate}-%{gitversion}
+%global gver .%{gitdate}git%{gitversion}
+
 Summary: Frontend for MAME
 Name: gmameui
 Version: 0.2.13
-Release: 0.4.20120704cvs%{?dist}
+Release: 0.7%{?gver}%{?dist}
 License: GPLv3+
 Group: Applications/Emulators
 URL: http://gmameui.sourceforge.net/
-#http://gmameui.cvs.sourceforge.net/viewvc/gmameui/gmameui/?view=tar
-Source0: gmameui-gmameui20120704cvs.tar.gz
-#from gnome-icon-theme-gperfection2-2.3-1.noarch.rpm
-Source1: missingicons.tbz
-Patch0: gmameui-0.2.12-fix.patch
-Patch2: gmameui-fix3.patch
-Patch3: gmameui-fix4.patch
-#BuildRequires: gtk2-devel
-BuildRequires: libgnome-devel
+# obtained by gmameui-localsnapshot.sh
+# https://github.com/sergiomb2/gmameui
+Source0: gmameui-%{version}-%{snapshot}.tar.bz2
+Source1: gmameui-localsnapshot.sh
+BuildRequires: gtk2-devel >= 2.10
+#BuildRequires: libgnome-devel
 BuildRequires: expat-devel
-BuildRequires: libglade2-devel
+#BuildRequires: libglade2-devel
 BuildRequires: gettext, bison
 BuildRequires: intltool, perl(XML::Parser)
 BuildRequires: libarchive-devel
@@ -27,48 +30,58 @@ BuildRequires: gtkimageview-devel
 BuildRequires: vte-devel
 
 Requires: gnome-icon-theme-legacy
+# to load /usr/share/mame/Catver.ini and /usr/share/mame/cheat.7z
+Requires: mame-data-extras
+Requires(pre): GConf2 >= 2.14
+Requires(preun): GConf2 >= 2.14
+Requires(post): GConf2 >= 2.14
+Requires(post): scrollkeeper
+Requires(postun): scrollkeeper
+
 
 
 %description
 GMAMEUI is a front-end program that helps you run MAME (either xmame or
 sdlmame), allowing you to run your arcade games quickly and easily.
 
+GMAMEUI is a fork of the defunct GXMame project.
+
+It contains a number of enhancements over GXMame:
+
+* Support for SDLMame
+* Support for more recent versions of MAME
+* Support for the recent features introduced to MAME
+* Migration to Glade for UI, allowing easier maintenance
+* A substantial number of bug fixes and UI improvements over GXMame
+
 
 %prep
-%setup -q -n gmameui
-%setup -a1 -qn gmameui
-%patch0 -p1 -b .fix
-%patch2 -p0 -b .fix3
-%patch3 -p0 -b .fix4
-
+%setup -q
 
 %build
 ./autogen.sh
-%configure
+%configure --enable-debug
 %{__make} %{?_smp_mflags}
 
 
 %install
-%{__rm} -rf %{buildroot} _docs
 %{__make} install DESTDIR=%{buildroot}
 %find_lang %{name}
 
-# Put the docs back into place
-%{__mkdir} _docs
-%{__rm} -f %{buildroot}%{_docdir}/%{name}*/{README,TODO}
-%{__mv} %{buildroot}%{_docdir}/%{name}*/* _docs/
+# clean empty files
+%{__rm} -f %{buildroot}%{_docdir}/%{name}*/TODO
 
 # Install missing icons
-#%{__cp} emblem-distinguished.png emblem-sound.png stock_unknown.png stock_filter-navigator.png \
-#stock_toggle-preview.png stock_list_enum-off.png %{buildroot}%{_datadir}/gmameui/
 
+pushd icons
 %{__cp} gmameui-view-list.png gmameui-view-filters.png gmameui-view-screenshot.png \
 gmameui-emblem-unknown.png gmameui-emblem-played.png gmameui-emblem-sound.png \
 %{buildroot}%{_datadir}/gmameui/
+popd
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc _docs/*
+%doc %{_docdir}
 %{_bindir}/gmameui
 %{_datadir}/applications/gmameui.desktop
 %{_datadir}/pixmaps/gmameui.png
@@ -77,8 +90,16 @@ gmameui-emblem-unknown.png gmameui-emblem-played.png gmameui-emblem-sound.png \
 %{_datadir}/omf/gmameui/
 %{_mandir}/man6/gmameui.6*
 
-
 %changelog
+* Sat Jan 24 2015 Sérgio Basto <sergio@serjux.com> - 0.2.13-0.7.20150124git7bac32a
+- Obtained sources from https://github.com/sergiomb2/gmameui
+
+* Sat Jan 17 2015 Sérgio Basto <sergio@serjux.com> - 0.2.13-0.6.20120704cvs
+- work in progress , renaming patches, clean spec
+
+* Sun Aug 31 2014 Sérgio Basto <sergio@serjux.com> - 0.2.13-0.5.20120704cvs
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Tue Mar 12 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.2.13-0.4.20120704cvs
 - https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
