@@ -1,0 +1,79 @@
+From 3de89a2abd3360c39fe2e569c0a24c9f6e145f29 Mon Sep 17 00:00:00 2001
+From: leigh123linux <leigh123linux@googlemail.com>
+Date: Sun, 26 Mar 2017 10:51:12 +0100
+Subject: [PATCH] fix format not a string literal and no format arguments
+
+---
+ src/common.c           | 4 ++--
+ src/game_list.c        | 2 +-
+ src/gmameui-main-win.c | 2 +-
+ src/gmameui.c          | 4 ++--
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/src/common.c b/src/common.c
+index dbb855a..fc6dbb0 100644
+--- a/src/common.c
++++ b/src/common.c
+@@ -44,7 +44,7 @@ gmameui_message (GtkDialogFlags type,
+ 					 GTK_DIALOG_DESTROY_WITH_PARENT,
+ 					 type,
+ 					 GTK_BUTTONS_CLOSE,
+-					 my_args);
++					 "%s", my_args);
+ 	g_free (my_args);
+ 	gtk_dialog_run (GTK_DIALOG (dialog));
+ 	gtk_widget_destroy (dialog);
+@@ -72,7 +72,7 @@ gmameui_dialog_create (GtkDialogFlags type,
+ 					 GTK_DIALOG_DESTROY_WITH_PARENT,
+ 					 type,
+ 					 GTK_BUTTONS_CLOSE,
+-					 my_args);
++					 "%s", my_args);
+ 	g_free (my_args);
+ 
+ 	return dialog;
+diff --git a/src/game_list.c b/src/game_list.c
+index 12aaa0d..eb2a90d 100644
+--- a/src/game_list.c
++++ b/src/game_list.c
+@@ -713,7 +713,7 @@ gamelist_check (MameExec *exec)
+ 		                        _("Rebuild gamelist"), GTK_RESPONSE_YES,
+ 		                        NULL);
+ 		gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+-		                                          message);
++		                                          "%s", message);
+ 		result = gtk_dialog_run (GTK_DIALOG (dialog));
+ 		gtk_widget_destroy (dialog);
+ 
+diff --git a/src/gmameui-main-win.c b/src/gmameui-main-win.c
+index 0365299..1159e0f 100644
+--- a/src/gmameui-main-win.c
++++ b/src/gmameui-main-win.c
+@@ -1058,7 +1058,7 @@ on_help_activate (GtkAction *action, gpointer user_data)
+ 						     NULL,
+ 						     _("There was an error opening the Help file"));
+ 		gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (helperr_dlg),
+-							  error->message);
++							  "%s", error->message);
+ 		gtk_dialog_run (GTK_DIALOG (helperr_dlg));
+ 		gtk_widget_destroy (helperr_dlg);
+ 		g_error_free (error);
+diff --git a/src/gmameui.c b/src/gmameui.c
+index 89d8b46..e33947d 100644
+--- a/src/gmameui.c
++++ b/src/gmameui.c
+@@ -408,9 +408,9 @@ launch_emulation (MameRomEntry    *rom,
+ 		for (node = g_list_first (extra_output); node; node = node->next) {
+ 			secmessage = g_strconcat (secmessage, node->data, "\n", NULL);
+ 		}
+-		dialog = gmameui_dialog_create (ERROR, NULL, title);
++		dialog = gmameui_dialog_create (ERROR, NULL, "%s", title);
+ 		gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+-							  secmessage);
++							  "%s", secmessage);
+ 
+ 		gtk_dialog_run (GTK_DIALOG (dialog));
+ 		gtk_widget_destroy (dialog);
+-- 
+2.12.1
+

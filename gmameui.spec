@@ -7,7 +7,7 @@
 Summary: Frontend for MAME
 Name: gmameui
 Version: 0.2.13
-Release: 0.8%{?gver}%{?dist}
+Release: 0.9%{?gver}%{?dist}
 License: GPLv3+
 Group: Applications/Emulators
 URL: http://gmameui.sourceforge.net/
@@ -15,12 +15,17 @@ URL: http://gmameui.sourceforge.net/
 # https://github.com/sergiomb2/gmameui
 Source0: gmameui-%{version}-%{snapshot}.tar.bz2
 Source1: gmameui-localsnapshot.sh
+Patch0:  fix-format-not-a-string-literal-and-no-format-argume.patch
+
+BuildRequires: desktop-file-utils
 BuildRequires: gtk2-devel >= 2.10
 #BuildRequires: libgnome-devel
 BuildRequires: expat-devel
 #BuildRequires: libglade2-devel
-BuildRequires: gettext, bison
-BuildRequires: intltool, perl(XML::Parser)
+BuildRequires: gettext
+BuildRequires: bison
+BuildRequires: intltool
+BuildRequires: perl(XML::Parser)
 BuildRequires: libarchive-devel
 BuildRequires: libvtemm-devel
 BuildRequires: gnome-doc-utils
@@ -56,16 +61,16 @@ It contains a number of enhancements over GXMame:
 
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 ./autogen.sh
 %configure --enable-debug
-%{__make} %{?_smp_mflags}
+%make_build CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="$RPM_LD_FLAGS"
 
 
 %install
-%{__make} install DESTDIR=%{buildroot}
+%make_install
 %find_lang %{name}
 
 # clean empty files
@@ -79,8 +84,12 @@ gmameui-emblem-unknown.png gmameui-emblem-played.png gmameui-emblem-sound.png \
 %{buildroot}%{_datadir}/gmameui/
 popd
 
+desktop-file-install                                    \
+  --delete-original                                     \
+  --dir $RPM_BUILD_ROOT/%{_datadir}/applications         \
+  $RPM_BUILD_ROOT/%{_datadir}/applications/gmameui.desktop
+
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %doc %{_docdir}
 %{_bindir}/gmameui
 %{_datadir}/applications/gmameui.desktop
@@ -91,6 +100,11 @@ popd
 %{_mandir}/man6/gmameui.6*
 
 %changelog
+* Sun Mar 26 2017 Leigh Scott <leigh123linux@googlemail.com> - 0.2.13-0.9.20150124git7bac32a
+- Fix build issues (use fedora compiler flags)
+- Fix compile issue
+- Validate desktop file
+
 * Sat Mar 25 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 0.2.13-0.8.20150124git7bac32a
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
