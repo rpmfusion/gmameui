@@ -7,7 +7,7 @@
 Summary: Frontend for MAME
 Name: gmameui
 Version: 0.2.13
-Release: 0.9%{?gver}%{?dist}
+Release: 0.10%{?gver}%{?dist}
 License: GPLv3+
 Group: Applications/Emulators
 URL: http://gmameui.sourceforge.net/
@@ -100,6 +100,9 @@ desktop-file-install                                    \
 %{_mandir}/man6/gmameui.6*
 
 %changelog
+* Thu Aug 31 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 0.2.13-0.10.20150124git7bac32a
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Sun Mar 26 2017 Leigh Scott <leigh123linux@googlemail.com> - 0.2.13-0.9.20150124git7bac32a
 - Fix build issues (use fedora compiler flags)
 - Fix compile issue
